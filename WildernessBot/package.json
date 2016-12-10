@@ -1,0 +1,14 @@
+{
+  "name": "wildernessbot",
+  "version": "0.0.1",
+  "description": "Twitch Bot for The Hunter Wild",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "NiniteGamer",
+  "license": "ISC",
+  "dependencies": {
+    "tmi.js": "^1.1.2"
+  }
+}
