@@ -1,2 +1,2 @@
-# TwitchBot
-Twitch bot I'm making for TheHunterWild
+# NiniteBot
+Twitch bot I'm making
