@@ -27,9 +27,9 @@ var giveawaystopper = null;
 
 //Connection Configuration
 //Don't forget to change everything to a example before release
-var BotsUsername = "wilderness_bot"; // Capitalization doesn't matter!
+var BotsUsername = ""; // Capitalization doesn't matter!
 var Channel = "theninitegamer"; //The channel you want the bot in!
-var oAuthCode = "oauth:p3wct2amll766cmlurxvhq23krlpqc"; //www.twitchapps.com/tmi/
+var oAuthCode = ""; //www.twitchapps.com/tmi/
 var OptionChannel = "#theninitegamer"; //Leave the # there or it'll fail to connect!
 //End of Connection Configuration
 
