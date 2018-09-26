@@ -1,1 +1,11 @@
-{"token":"😂,"serverName":"NinieBot","defaultPrefix":"!"}
+{	
+	
+	"token":"",
+	"serverName":"",
+	"defaultPrefix":"!",
+	"purgeMessageTimer":"30000",
+	"botGame":"Bot Things?",
+	"botStatus":"dnd",
+	"botVersion": "0.9.0"
+	
+}
