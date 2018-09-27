@@ -14,21 +14,30 @@ myLoggers.configure({
 const logger = myLoggers.getLogger("Default");
 ///////////////////////////////////////////////////////////////////////////////
 
-exports.run = async (client, message, args, ops) => {
-
-    let fetched = ops.active.get(message.guild.id);
+exports.run = async (client, message, args, ops, BOTGAME) => {
     
-    if (!fetched) return message.channel.send(`There currently isn't any music playing in this guild!`);
+    let statusmessagebegin = message.content
+    let statusmessage = statusmessagebegin.substring(8)
+    args = statusmessage;
+    console.log(args);
     
-    let queue = fetched.queue;
-    let nowPlaying = queue[0];
-    
-    let resp = `__**Now Playing**__\n${nowPlaying.songTitle}** -- **Requested By:** \*${nowPlaying.requester}*\n\n__**Queue**__\n`;
-    
-    for (var i = 1; i < queue.length; i++) {
-        resp += `${i}. **${queue[i].songTitle}** **Requested By:** **${queue[i].requester}**\n`;
+    if(message.member.hasPermission("ADMINISTRATOR")) {
+        
+        try {
+            BOTGAME = args;
+            gamechanger(BOTGAME);
+            return message.author.send(`The bots game was set to ${BOTGAME}`);
+            
+        } catch (e) {
+            return message.author.send(`Couldn/'t change the bots game`)
+        }
+        
+    } else {
+        return message.author.send("You do not have access to that command!");
     }
     
-    message.channel.send(resp);
+    function gamechanger(BOTGAME) {
+        client.user.setPresence({ game: { name: BOTGAME }, status: 'dnd'});
+    }
     
 }

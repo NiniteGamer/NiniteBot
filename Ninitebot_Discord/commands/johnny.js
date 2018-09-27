@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
     }
     
     
-    message.channel.send('God help me', {
+    message.channel.send('My lord and savior', {
         files: [
             "\Johnny_Flesh.jpg"
         ]   

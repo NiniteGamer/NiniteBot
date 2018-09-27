@@ -4,8 +4,9 @@ let Discord = module.require(`discord.js`);
 const fs = module.require(`fs`);
 const CONFIG = require("../storage/config.json");
 const myLoggers = require('log4js');
+const sql = require("sqlite");
 ///////////////////////////////////////////////////////////////////////////////
-
+sql.open("./score.sqlite");
 //////////////////////////////////// LOGGER ///////////////////////////////////
 myLoggers.configure({
     appenders: { mylogger: { type:"file", filename: "logs/debug_logs.log" } },
@@ -14,11 +15,11 @@ myLoggers.configure({
 const logger = myLoggers.getLogger("Default");
 ///////////////////////////////////////////////////////////////////////////////
 
-exports.run = async (client, message, args) => {
+exports.run = async (client, message, args, ops) => {
     
-    return message.channel.send(`Daniel is the worst human being, and his memes are old`, {
-        tts: true
+    sql.get(`SELECT * FROM scores WHERE userid = "${message.author.id}"`).then(row => {
+        if (!row) return message.reply("sadly you do not have any points yet!");
+        message.reply(`you currently have ${row.points} points, good going!`);
     })
-    console.log(message.author.tag + " has used the !dan command.")
-    logger.info(message.author.tag + " has used the !dan command.")
+    
 }

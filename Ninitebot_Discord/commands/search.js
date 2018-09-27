@@ -1,18 +1,8 @@
 ////////////////////////////// Required Packages //////////////////////////////
 ////////////////////////////// DO NOT MESS WITH ///////////////////////////////
-let Discord = module.require(`discord.js`);
-const fs = module.require(`fs`);
-const CONFIG = require("../storage/config.json");
-const myLoggers = require('log4js');
-const search = require('yt-search');
-///////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////// LOGGER ///////////////////////////////////
-myLoggers.configure({
-    appenders: { mylogger: { type:"file", filename: "logs/debug_logs.log" } },
-    categories: { default: { appenders:["mylogger"], level:"ALL" } }
-});
-const logger = myLoggers.getLogger("Default");
+const search = require('yt-search');
+
 ///////////////////////////////////////////////////////////////////////////////
 
 exports.run = (client, message, args, ops) => {
@@ -28,7 +18,7 @@ exports.run = (client, message, args, ops) => {
             resp += `**[${parseInt(i)+1}]:** \`${videos[i].title}\`\n`;
         }
         
-        resp += `\n**Choose a number between \`1-${videos.length}\``;
+        resp += `\n**Choose a number between** \`1-${videos.length}\``;
     
         message.channel.send(resp);
         

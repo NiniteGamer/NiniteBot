@@ -17,7 +17,7 @@ myLoggers.configure({
 });
 const logger = myLoggers.getLogger("Default");
 
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (client, message, args, ops) => {
  async function mimic() {
       
     let author = message.member.id

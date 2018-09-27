@@ -47,7 +47,3 @@ module.exports.run = async (client, message, args) => {
     })
     .catch(error => message.channel.send(`*Error: ${error}`))
 }
-
-module.exports.help = {
-    name: "meme"
-}
