@@ -16,9 +16,7 @@ const logger = myLoggers.getLogger("Default");
 
 exports.run = (client, message, args, ops) => {
     
-    logger.info(message.author.tag " has used the !volume command");
-    
-    if(!message.member.hasPermission("ADMINISTRATOR")) return message.author.send(`This command is unavailable`)
+    if(!message.member.hasPermission("ADMINISTRATOR") ) return message.author.send(`This command is unavailable`)
     
     let fetched = ops.active.get(message.guild.id);
     

@@ -4,7 +4,8 @@ const fs = require("fs");
 const client = new Discord.Client({
     disableEveryone: true
 });
-const CONFIG = require("./storage/config.json")
+const sql = require("sqlite");
+const CONFIG = require("./storage/config.json");
 const TOKEN = CONFIG.token;
 const PREFIX = CONFIG.defaultPrefix;
 const SERVERNAME = CONFIG.serverName;
@@ -15,6 +16,8 @@ const BOTVERSION = CONFIG.botVersion;
 const active = new Map();
 const myLoggers = require('log4js');
 ///////////////////////////////////////////////////////////////////////////////
+
+sql.open("./score.sqlite");
 
 //////////////////////////////// LOGGING SYSTEM ///////////////////////////////
 
@@ -39,6 +42,8 @@ client.on("ready", () => {
 
     console.log(`I have successfully logged into: ${SERVERNAME}`)
     logger.info(`I have successfully logged into: ${SERVERNAME}`)
+                                            
+
 })
 
 client.on("message", (message) => {
@@ -59,7 +64,7 @@ client.on("message", (message) => {
     
         
         let commandFile = require(`./commands/${cmd}.js`);
-        commandFile.run(client, message, args, ops, cmd);
+        commandFile.run(client, message, args, ops, cmd, BOTGAME);
         
     } catch (e) {
         
@@ -67,6 +72,25 @@ client.on("message", (message) => {
         logger.error(e.stack);
         
     }
+    
+    sql.get(`SELECT * FROM scores WHERE userId ="${message.author.id}"`).then(row => {
+        if (!row) {
+        sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 0]);
+        } else {
+            let curLevel = Math.floor(0.1 * Math.sqrt(row.points + 1));
+            if (curLevel > row.level) {
+                row.level = curLevel;
+                sql.run(`UPDATE scores SET points = ${row.points + 1}, level = ${row.level} WHERE userId = ${message.author.id}`);
+                message.reply(`You've leveled up to level **${curLevel}**! Ain't that dandy?`);
+            }
+            sql.run(`UPDATE scores SET points = ${row.points + 1} WHERE userId = ${message.author.id}`);
+        }
+        }).catch(() => {
+            console.error;
+            sql.run("CREATE TABLE IF NOT EXISTS scores (userId TEXT, points INTEGER, level INTEGER)").then(() => {
+                sql.run("INSERT INTO scores (userId, points, level) VALUES (?, ?, ?)", [message.author.id, 1, 0]);
+            });
+        });
     
     process.on('uncaughtException', function (err) {
         console.error(err);

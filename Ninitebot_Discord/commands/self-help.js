@@ -14,11 +14,13 @@ myLoggers.configure({
 const logger = myLoggers.getLogger("Default");
 ///////////////////////////////////////////////////////////////////////////////
 
-exports.run = async (client, message, args) => {
-    
-    return message.channel.send(`Daniel is the worst human being, and his memes are old`, {
-        tts: true
+exports.run = async (client, message, args, ops) => {
+       
+    message.author.send('....', {
+        files: [
+            "\supreme.png"
+        ]   
     })
-    console.log(message.author.tag + " has used the !dan command.")
-    logger.info(message.author.tag + " has used the !dan command.")
+    
+    
 }
