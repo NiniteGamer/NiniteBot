@@ -5,7 +5,7 @@ const fs = module.require(`fs`);
 const CONFIG = require("../storage/config.json");
 const myLoggers = require('log4js');
 const sql = require("sqlite");
-const logger = myLoggers.getLogger("Points_CMD");
+const logger = myLoggers.getLogger("Reset_Level_Points_CMD");
 ///////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// SQL Stuff //////////////////////////////////
 sql.open("./score.sqlite");
@@ -13,11 +13,17 @@ sql.open("./score.sqlite");
 
 exports.run = async (client, message, args, ops) => {
 
-    logger.info(`${message.author.tag} has ran the !points command on guild ${message.guild.name}`);
+    logger.info(`${message.author.tag} has ran the !reset_level_points on ${rUser} on guild ${message.guild.name}`);
 
-    sql.get(`SELECT * FROM scores WHERE userid = "${message.author.id}"`).then(row => {
-        if (!row) return message.reply("sadly you do not have any points yet!");
-        message.reply(`you currently have ${row.points} points, good going!`);
-    })
+    let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    rUser = rUser.id
+    if (!rUser) message.channel.send("Can't find user!");
+
+    let level = 0;
+    let points = 0;
+
+    sql.get(`SELECT * FROM scores WHERE userId ="${rUser}"`).then(row => {
+        sql.run(`UPDATE scores SET level = ${level}, points = ${points}`);
+    });
 
 }

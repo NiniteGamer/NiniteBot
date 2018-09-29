@@ -7,37 +7,35 @@ const myLoggers = require('log4js');
 ///////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////// LOGGER ///////////////////////////////////
-myLoggers.configure({
-    appenders: { mylogger: { type:"file", filename: "logs/debug_logs.log" } },
-    categories: { default: { appenders:["mylogger"], level:"ALL" } }
-});
 const logger = myLoggers.getLogger("Default");
 ///////////////////////////////////////////////////////////////////////////////
 
 exports.run = async (client, message, args, ops, BOTGAME) => {
-    
+
     let statusmessagebegin = message.content
     let statusmessage = statusmessagebegin.substring(8)
     args = statusmessage;
     console.log(args);
-    
-    if(message.member.hasPermission("ADMINISTRATOR")) {
-        
+
+    if (message.author.id !== ops.ownerID) return message.author.send("You do not have access to that command only NiniteGamer has access");
+
+    if (message.author.id == ops.ownerID) {
+
         try {
             BOTGAME = args;
             gamechanger(BOTGAME);
             return message.author.send(`The bots game was set to ${BOTGAME}`);
-            
+
         } catch (e) {
             return message.author.send(`Couldn/'t change the bots game`)
         }
-        
+
     } else {
         return message.author.send("You do not have access to that command!");
     }
-    
+
     function gamechanger(BOTGAME) {
-        client.user.setPresence({ game: { name: BOTGAME }, status: 'dnd'});
+        client.user.setPresence({ game: { name: BOTGAME }, status: 'dnd' });
     }
-    
+
 }

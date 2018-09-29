@@ -1,29 +1,17 @@
-let Discord = module.require(`discord.js`)
-const fs = module.require(`fs`)
+////////////////////////////// Required Packages //////////////////////////////
+////////////////////////////// DO NOT MESS WITH ///////////////////////////////
+let Discord = module.require(`discord.js`);
+const fs = module.require(`fs`);
+const CONFIG = require("../storage/config.json");
 const myLoggers = require('log4js');
-
-myLoggers.configure({
-    appenders: { mylogger: { type:"file", filename: "logs/debug_logs.log" } },
-    categories: { default: { appenders:["mylogger"], level:"ALL" } }
-});
 const logger = myLoggers.getLogger("HelpMeme-CMD");
+///////////////////////////////////////////////////////////////////////////////
 
-module.exports.run = async (client, message, args) => {
-    var sender = message.member.id
-    
-    if (sender = '159412988539830272') {
-        sender = "NiniteGamer"
-    } else if (sender = '296418120569061378') {
-        sender = "Dan Halen"
-    }
-    
-    logger.info(sender + " has used the HelpMeme-Command.")
-    
+exports.run = async (client, message, args) => {
+
+    logger.info(`${message.author.tag} has ran the !help-meme command on guild ${message.guild.name}`);
+
     message.author.send("The !meme command is used when you want to post a terrible meme. :x: *More terrible memes will be added in the future*")
-    
-    return
-}
 
-module.exports.help = {
-    name: "help-meme"
+    return
 }
